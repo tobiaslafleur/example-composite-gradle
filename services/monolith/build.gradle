@@ -1,0 +1,9 @@
+plugins {
+    alias(libs.plugins.springBoot)
+    alias(libs.plugins.springDependencyManagement)
+}
+
+dependencies {
+    implementation libs.springBootStarter
+    implementation libs.springBootStarterWeb
+}
