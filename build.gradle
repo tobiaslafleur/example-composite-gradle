@@ -1,24 +1,5 @@
-allprojects {
-	group = 'se.shrly'
-
-	repositories {
-		mavenCentral()
-	}
-}
-
-subprojects {
-	apply plugin: 'java'
-
-	tasks.withType(Test).configureEach {
-		useJUnitPlatform()
-		testLogging {
-			events "passed", "skipped", "failed"
-		}
-	}
-
-	tasks.configureEach {
-		outputs.cacheIf {
-			true
-		}
-	}
+tasks.register('test') {
+    dependsOn gradle.includedBuild('core').task(':test')
+    dependsOn gradle.includedBuild('monolith').task(':test')
+    dependsOn gradle.includedBuild('swish').task(':test')
 }

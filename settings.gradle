@@ -1,7 +1,17 @@
 rootProject.name = 'external-payment-service-provider'
 
-include 'libs:domain'
+file('libs').eachDir { dir ->
+    includeBuild(dir) {
+        dependencySubstitution {
+            substitute module("se.shrly.externalpsp.lib:${dir.name}") using project(':')
+        }
+    }
+}
 
-include 'services:core'
-include 'services:monolith'
-include 'services:swish'
+file('services').eachDir { dir ->
+    includeBuild(dir) {
+        dependencySubstitution {
+            substitute module("se.shrly.externalpsp.service:${dir.name}") using project(':')
+        }
+    }
+}

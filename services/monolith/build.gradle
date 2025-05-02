@@ -1,9 +1,42 @@
 plugins {
-    alias(libs.plugins.springBoot)
-    alias(libs.plugins.springDependencyManagement)
+    alias(libs.plugins.ext.java)
+    alias(libs.plugins.ext.springBoot)
+    alias(libs.plugins.ext.springDependencyManagement)
+}
+
+group = 'se.shrly'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(24)
+    }
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    implementation libs.springBootStarter
-    implementation libs.springBootStarterWeb
+    implementation libs.ext.springBootStarter
+    implementation libs.ext.springBootStarterWeb
+
+    implementation libs.int.coreService
+    implementation libs.int.swishService
+
+    testImplementation libs.ext.junitJupiter
+    testRuntimeOnly libs.ext.junitPlatformLauncher
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+    }
+}
+
+tasks.configureEach {
+    outputs.cacheIf {
+        true
+    }
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Map;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "se.shrly.externalpsp.service")
 public class Monolith {
 
     public static void main(String[] args) {
