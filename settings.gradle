@@ -1,17 +1,26 @@
 rootProject.name = 'external-payment-service-provider'
 
-file('libs').eachDir { dir ->
-    includeBuild(dir) {
-        dependencySubstitution {
-            substitute module("se.shrly.externalpsp.lib:${dir.name}") using project(':')
-        }
-    }
+def includeLib(dir, suffix) {
+	includeBuild(dir) {
+		name = suffix
+		dependencySubstitution {
+			substitute module("se.shrly.externalpsp.lib:${name}") using project(':')
+		}
+	}
 }
 
-file('services').eachDir { dir ->
-    includeBuild(dir) {
-        dependencySubstitution {
-            substitute module("se.shrly.externalpsp.service:${dir.name}") using project(':')
-        }
-    }
+def includeService(dir, suffix) {
+	includeBuild(dir) {
+		name = suffix
+		dependencySubstitution {
+			substitute module("se.shrly.externalpsp.service:${name}") using project(':')
+		}
+	}
 }
+
+includeLib('libs/domain/avro', 'domain-avro')
+includeLib('libs/domain/core', 'domain-core')
+
+includeService('services/core', 'core')
+includeService('services/monolith', 'monolith')
+includeService('services/swish', 'swish')

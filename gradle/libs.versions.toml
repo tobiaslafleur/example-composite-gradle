@@ -3,6 +3,7 @@ ext-java = { id = "java" }
 ext-javaLibrary = { id = "java-library" }
 ext-springBoot = { id = "org.springframework.boot", version = "3.4.5" }
 ext-springDependencyManagement = { id = "io.spring.dependency-management", version = "1.1.7" }
+ext-spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
 
 [libraries]
 ext-springBootStarter = { group = "org.springframework.boot", name = "spring-boot-starter" }
@@ -11,7 +12,8 @@ ext-springBootStarterWeb = { group = "org.springframework.boot", name = "spring-
 ext-junitJupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version = "5.12.2" }
 ext-junitPlatformLauncher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 
-int-domain = { group = "se.shrly.externalpsp.lib", name = "domain" }
+int-domainCore = { group = "se.shrly.externalpsp.lib", name = "domain-core" }
+int-domainAvro = { group = "se.shrly.externalpsp.lib", name = "domain-avro" }
 
 int-coreService = { group = "se.shrly.externalpsp.service", name = "core" }
 int-swishService = { group = "se.shrly.externalpsp.service", name = "swish" }

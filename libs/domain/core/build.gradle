@@ -1,0 +1,18 @@
+plugins {
+	alias(libs.plugins.ext.javaLibrary)
+}
+
+group = 'se.shrly'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+}
+
+tasks.configureEach {
+	outputs.cacheIf {
+		true
+	}
+}

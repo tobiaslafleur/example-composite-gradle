@@ -1,3 +1,4 @@
+---
 spring:
   application:
-    name: external-psp-monolith
+    name: "external-psp-monolith"

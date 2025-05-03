@@ -1,5 +1,37 @@
+plugins {
+	alias(libs.plugins.ext.spotless)
+}
+
+repositories {
+	mavenCentral()
+}
+
 tasks.register('test') {
-    dependsOn gradle.includedBuild('core').task(':test')
-    dependsOn gradle.includedBuild('monolith').task(':test')
-    dependsOn gradle.includedBuild('swish').task(':test')
+	dependsOn gradle.includedBuild('core').task(':test')
+	dependsOn gradle.includedBuild('monolith').task(':test')
+	dependsOn gradle.includedBuild('swish').task(':test')
+}
+
+spotless {
+	java {
+		removeUnusedImports()
+		importOrder()
+		palantirJavaFormat()
+
+		target '**/src/*/java/**/*.java'
+	}
+
+	groovyGradle {
+		importOrder()
+		removeSemicolons()
+		greclipse()
+
+		target '**/*.gradle'
+	}
+
+	yaml {
+		jackson()
+
+		target '**/*.yml', '**/*.yaml'
+	}
 }
