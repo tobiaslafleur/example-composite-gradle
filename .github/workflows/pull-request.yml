@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  test-build-push:
+  test-build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout sources
