@@ -18,6 +18,10 @@ dependencies {
 	testRuntimeOnly libs.ext.junitPlatformLauncher
 }
 
+jar {
+	enabled = false
+}
+
 test {
 	useJUnitPlatform()
 
@@ -27,7 +31,5 @@ test {
 }
 
 tasks.configureEach {
-	outputs.cacheIf {
-		true
-	}
+	outputs.cacheIf { true }
 }

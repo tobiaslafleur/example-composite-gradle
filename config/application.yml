@@ -1,3 +1,13 @@
 ---
 server:
-  port: 8082
+  port: 8080
+spring:
+  main:
+    banner-mode: false
+  threads:
+    virtual:
+      enabled: true
+logging:
+  structured:
+    format:
+      console: "ecs"

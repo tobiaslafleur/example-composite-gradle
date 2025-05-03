@@ -12,7 +12,5 @@ dependencies {
 }
 
 tasks.configureEach {
-	outputs.cacheIf {
-		true
-	}
+	outputs.cacheIf { true }
 }
