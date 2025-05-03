@@ -6,10 +6,29 @@ repositories {
 	mavenCentral()
 }
 
+def included = [
+	'core',
+	'monolith',
+	'domain-core',
+	'domain-avro'
+]
+
 tasks.register('test') {
-	dependsOn gradle.includedBuild('core').task(':test')
-	dependsOn gradle.includedBuild('monolith').task(':test')
-	dependsOn gradle.includedBuild('swish').task(':test')
+	included.each { step ->
+		dependsOn gradle.includedBuild(step).task(':test')
+	}
+}
+
+tasks.named('build') {
+	included.each { step ->
+		dependsOn gradle.includedBuild(step).task(':build')
+	}
+}
+
+tasks.named('clean') {
+	included.each { step ->
+		dependsOn gradle.includedBuild(step).task(':clean')
+	}
 }
 
 spotless {
@@ -32,6 +51,6 @@ spotless {
 	yaml {
 		jackson()
 
-		target '**/*.yml', '**/*.yaml'
+		target 'config/*.yml', '**/src/**/*.yml'
 	}
 }

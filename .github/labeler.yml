@@ -1,0 +1,8 @@
+feature:
+  - changed-files:
+      - any-glob-to-any-file: '*'
+      - all-globs-to-all-files: '!gradle/*'
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: 'gradle/*'
