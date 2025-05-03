@@ -1,7 +1,7 @@
 plugins {
 	alias(libs.plugins.ext.java)
-	alias(libs.plugins.ext.springBoot)
-	alias(libs.plugins.ext.springDependencyManagement)
+	alias(libs.plugins.ext.spring.boot)
+	alias(libs.plugins.ext.spring.dependency.management)
 }
 
 group = 'se.shrly'
@@ -11,11 +11,14 @@ repositories {
 }
 
 dependencies {
-	implementation libs.ext.springBootStarter
-	implementation libs.ext.springBootStarterWeb
+	implementation libs.ext.spring.boot.starter
+	implementation libs.ext.spring.boot.starter.web
 
-	testImplementation libs.ext.junitJupiter
-	testRuntimeOnly libs.ext.junitPlatformLauncher
+	implementation libs.int.core.service
+
+	testImplementation libs.ext.junit.jupiter
+	testImplementation libs.ext.spring.boot.starter.test
+	testRuntimeOnly libs.ext.junit.platform.launcher
 }
 
 jar {
@@ -24,6 +27,10 @@ jar {
 
 test {
 	useJUnitPlatform()
+
+	reports {
+		junitXml.outputLocation = layout.buildDirectory.dir("test-junit-xml")
+	}
 
 	testLogging {
 		events 'passed', 'skipped', 'failed'
