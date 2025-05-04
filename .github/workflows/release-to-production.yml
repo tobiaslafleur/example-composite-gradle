@@ -1,0 +1,17 @@
+name: release to production
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
+
+jobs:
+  release-to-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: releasing to production
+        run: echo "releasing tag ${{ github.event.release.tag_name }} to production"
