@@ -41,13 +41,11 @@ jobs:
           report_paths: '**/test-junit-xml/**/TEST-*.xml'
           simplified_summary: true
 
-      - name: create and push git tag
+      - name: create tag
         id: tag
         run: |
           export TZ="Europe/Stockholm"
           timestamp=$(date +'%y%m%d-%H%M%S')
-          git tag $timestamp
-          git push origin $timestamp
           echo "tag=$timestamp" >> GITHUB_OUTPUT
 
       - name: log in to the container registry
@@ -71,3 +69,8 @@ jobs:
           platforms: linux/amd64
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: publish git tag
+        run: |
+          git tag ${{ steps.tag.outputs.tag }}
+          git push origin ${{ steps.tag.outputs.tag }}
