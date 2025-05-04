@@ -57,6 +57,6 @@ jobs:
           context: .
           file: services/monolith/Dockerfile
           push: true
-          tags: ${{ github.repository }}:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
