@@ -15,6 +15,8 @@ permissions:
 jobs:
   test-build-push:
     runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
     steps:
       - name: checkout sources
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -74,3 +76,19 @@ jobs:
         run: |
           git tag ${{ steps.tag.outputs.tag }}
           git push origin ${{ steps.tag.outputs.tag }}
+
+  release-to-development:
+    runs-on: ubuntu-latest
+    environment: development
+    needs: [test-build-push]
+    steps:
+      - name: releasing to development
+        run: echo "releasing tag ${{ needs.test-build-push.outputs.tag }} to development"
+
+  release-to-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    needs: [test-build-push, release-to-development]
+    steps:
+      - name: releasing to staging
+        run: echo "releasing tag ${{ needs.test-build-push.outputs.tag }} to staging"
