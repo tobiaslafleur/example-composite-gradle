@@ -1,56 +1,59 @@
 plugins {
-	alias(libs.plugins.ext.spotless)
+    alias(libs.plugins.ext.spotless)
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 def included = [
-	'core',
-	'monolith',
-	'domain-core',
-	'domain-avro'
+    'core',
+    'monolith',
+    'domain-core',
+    'domain-avro'
 ]
 
 tasks.register('test') {
-	included.each { step ->
-		dependsOn gradle.includedBuild(step).task(':test')
-	}
+    included.each { step ->
+        dependsOn gradle.includedBuild(step).task(':test')
+    }
 }
 
 tasks.named('build') {
-	included.each { step ->
-		dependsOn gradle.includedBuild(step).task(':build')
-	}
+    included.each { step ->
+        dependsOn gradle.includedBuild(step).task(':build')
+    }
 }
 
 tasks.named('clean') {
-	included.each { step ->
-		dependsOn gradle.includedBuild(step).task(':clean')
-	}
+    included.each { step ->
+        dependsOn gradle.includedBuild(step).task(':clean')
+    }
 }
 
 spotless {
-	java {
-		removeUnusedImports()
-		importOrder()
-		palantirJavaFormat()
+    java {
+        removeUnusedImports()
+        importOrder()
+        palantirJavaFormat()
+        leadingTabsToSpaces(4)
 
-		target '**/src/*/java/**/*.java'
-	}
+        target '**/src/*/java/**/*.java'
+    }
 
-	groovyGradle {
-		importOrder()
-		removeSemicolons()
-		greclipse()
+    groovyGradle {
+        importOrder()
+        removeSemicolons()
+        greclipse()
+        leadingTabsToSpaces(4)
 
-		target '**/*.gradle'
-	}
+        target '**/*.gradle'
+    }
 
-	yaml {
-		jackson()
+    yaml {
+        jackson()
+        leadingTabsToSpaces(2)
 
-		target 'config/*.yml', '**/src/**/*.yml'
-	}
+        target 'config/*.yml', '**/src/**/*.yml'
+    }
 }
