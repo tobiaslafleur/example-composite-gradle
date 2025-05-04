@@ -6,6 +6,7 @@ on:
       - 'main'
 
 permissions:
+  attestations: write
   checks: write
   id-token: write
   packages: write
@@ -37,6 +38,13 @@ jobs:
       - name: gradle build
         run: ./gradlew build
 
+      - name: publish junit report
+        uses: mikepenz/action-junit-report@cf701569b05ccdd861a76b8607a66d76f6fd4857 # v5
+        if: always()
+        with:
+          report_paths: '**/test-junit-xml/**/TEST-*.xml'
+          simplified_summary: true
+
       - name: log in to the container registry
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
         with:
@@ -49,7 +57,7 @@ jobs:
         uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=sha
+          tags: type=sha,prefix=,format=short
 
       - name: set up docker buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
@@ -72,10 +80,3 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-
-      - name: publish junit report
-        uses: mikepenz/action-junit-report@cf701569b05ccdd861a76b8607a66d76f6fd4857 # v5
-        if: always()
-        with:
-          report_paths: '**/test-junit-xml/**/TEST-*.xml'
-          simplified_summary: true
