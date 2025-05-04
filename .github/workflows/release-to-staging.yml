@@ -1,0 +1,14 @@
+name: release to staging
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release-to-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: releasing to production
+        run: echo "releasing tag ${{ github.ref_name }} to staging"

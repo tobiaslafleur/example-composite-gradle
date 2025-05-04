@@ -1,0 +1,14 @@
+name: release to development
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release-to-development:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: releasing to production
+        run: echo "releasing tag ${{ github.ref_name }} to development"

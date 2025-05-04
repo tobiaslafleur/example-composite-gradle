@@ -7,6 +7,7 @@ on:
 
 permissions:
   checks: write
+  contents: write
   id-token: write
   packages: write
   pull-requests: write
@@ -40,6 +41,15 @@ jobs:
           report_paths: '**/test-junit-xml/**/TEST-*.xml'
           simplified_summary: true
 
+      - name: create and push git tag
+        id: tag
+        run: |
+          export TZ="Europe/Stockholm"
+          timestamp=$(date +'%y%m%d-%H%M%S')
+          git tag $timestamp
+          git push origin $timestamp
+          echo "tag=$timestamp" >> GITHUB_OUTPUT
+
       - name: log in to the container registry
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
         with:
@@ -57,6 +67,7 @@ jobs:
           context: .
           file: services/monolith/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.tag }}
+          platforms: linux/amd64
           cache-from: type=gha
           cache-to: type=gha,mode=max
