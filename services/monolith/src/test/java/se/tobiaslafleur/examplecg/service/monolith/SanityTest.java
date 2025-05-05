@@ -1,4 +1,4 @@
-package se.shrly.examplecg.service.monolith;
+package se.tobiaslafleur.examplecg.service.monolith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

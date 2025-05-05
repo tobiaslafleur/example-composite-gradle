@@ -1,14 +1,14 @@
-package se.shrly.examplecg.service.core;
+package se.tobiaslafleur.examplecg.service.monolith;
 
 import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class Core {
+@SpringBootApplication(scanBasePackages = "se.tobiaslafleur.examplecg.service")
+public class Monolith {
 
     public static void main(String[] args) {
-        var app = new SpringApplication(Core.class);
+        var app = new SpringApplication(Monolith.class);
 
         app.setDefaultProperties(Map.of("spring.config.additional-location", "file:./config/"));
 
