@@ -4,7 +4,7 @@ def includeLib(dir, suffix) {
     includeBuild(dir) {
         name = suffix
         dependencySubstitution {
-            substitute module("se.shrly.examplecg.lib:${name}") using project(':')
+            substitute module("se.tobiaslafleur.examplecg.lib:${name}") using project(':')
         }
     }
 }
@@ -13,7 +13,7 @@ def includeService(dir, suffix) {
     includeBuild(dir) {
         name = suffix
         dependencySubstitution {
-            substitute module("se.shrly.examplecg.service:${name}") using project(':')
+            substitute module("se.tobiaslafleur.examplecg.service:${name}") using project(':')
         }
     }
 }

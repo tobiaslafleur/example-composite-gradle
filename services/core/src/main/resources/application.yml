@@ -1,4 +1,4 @@
 ---
 spring:
   application:
-    name: "external-psp-core"
+    name: "core"

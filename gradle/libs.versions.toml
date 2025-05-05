@@ -13,7 +13,7 @@ ext-junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", versi
 ext-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 ext-spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 
-int-domain-avro = { group = "se.shrly.examplecg.lib", name = "domain-avro" }
-int-domain-core = { group = "se.shrly.examplecg.lib", name = "domain-core" }
+int-domain-avro = { group = "se.tobiaslafleur.examplecg.lib", name = "domain-avro" }
+int-domain-core = { group = "se.tobiaslafleur.examplecg.lib", name = "domain-core" }
 
-int-core-service = { group = "se.shrly.examplecg.service", name = "core" }
+int-core-service = { group = "se.tobiaslafleur.examplecg.service", name = "core" }
