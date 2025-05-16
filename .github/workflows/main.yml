@@ -28,7 +28,7 @@ jobs:
           java-version: 21
 
       - name: setup gradle
-        uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4
+        uses: gradle/actions/setup-gradle@8379f6a1328ee0e06e2bb424dadb7b159856a326 # v4
 
       - name: gradle test
         run: ./gradlew test
@@ -62,7 +62,7 @@ jobs:
 
       - name: build and push docker image
         id: push
-        uses: docker/build-push-action@14487ce63c7a62a4a324b0bfb37086795e31c6c1 # v6
+        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6
         with:
           context: .
           file: services/monolith/Dockerfile
