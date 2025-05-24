@@ -14,21 +14,27 @@ val included =
         "domain-avro",
     )
 
-tasks.register("test") {
-    included.forEach { step ->
-        dependsOn(gradle.includedBuild(step).task(":test"))
-    }
-}
-
 tasks.named("assemble") {
     included.forEach { step ->
         dependsOn(gradle.includedBuild(step).task(":assemble"))
     }
 }
 
+tasks.named("build") {
+    included.forEach { step ->
+        dependsOn(gradle.includedBuild(step).task(":build"))
+    }
+}
+
 tasks.named("clean") {
     included.forEach { step ->
         dependsOn(gradle.includedBuild(step).task(":clean"))
+    }
+}
+
+tasks.register("test") {
+    included.forEach { step ->
+        dependsOn(gradle.includedBuild(step).task(":test"))
     }
 }
 
