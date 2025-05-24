@@ -6,3 +6,6 @@ changelog:
     - title: 🛠 Dependencies
       labels:
         - 'dependencies'
+    - title: 🔄 CI/CD
+      labels:
+        - 'ci-cd'
