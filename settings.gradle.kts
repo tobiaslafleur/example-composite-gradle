@@ -1,6 +1,9 @@
 rootProject.name = "example-composite-gradle"
 
-fun includeLib(dir: String, suffix: String) {
+fun includeLib(
+    dir: String,
+    suffix: String,
+) {
     includeBuild(dir) {
         name = suffix
         dependencySubstitution {
@@ -10,7 +13,10 @@ fun includeLib(dir: String, suffix: String) {
     }
 }
 
-fun includeService(dir: String, suffix: String) {
+fun includeService(
+    dir: String,
+    suffix: String,
+) {
     includeBuild(dir) {
         name = suffix
         dependencySubstitution {

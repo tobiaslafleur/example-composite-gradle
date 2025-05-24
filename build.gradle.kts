@@ -6,12 +6,13 @@ repositories {
     mavenCentral()
 }
 
-val included = listOf(
-    "core",
-    "monolith",
-    "domain-core",
-    "domain-avro"
-)
+val included =
+    listOf(
+        "core",
+        "monolith",
+        "domain-core",
+        "domain-avro",
+    )
 
 tasks.register("test") {
     included.forEach { step ->
@@ -19,9 +20,9 @@ tasks.register("test") {
     }
 }
 
-tasks.named("build") {
+tasks.named("assemble") {
     included.forEach { step ->
-        dependsOn(gradle.includedBuild(step).task(":build"))
+        dependsOn(gradle.includedBuild(step).task(":assemble"))
     }
 }
 
@@ -31,21 +32,16 @@ tasks.named("clean") {
     }
 }
 
+tasks.register("lint") {
+    dependsOn("spotlessCheck")
+}
+
 spotless {
     kotlin {
         ktlint()
         leadingTabsToSpaces(4)
 
-        target("**/src/*/kotlin/**/*.kt")
-    }
-
-    groovyGradle {
-        importOrder()
-        removeSemicolons()
-        greclipse()
-        leadingTabsToSpaces(4)
-
-        target("**/*.gradle")
+        target("**/*.kt", "**/*.kts")
     }
 
     yaml {
