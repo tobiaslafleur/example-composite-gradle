@@ -1,19 +1,17 @@
 [plugins]
-ext-java = { id = "java" }
-ext-java-library = { id = "java-library" }
-ext-spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
-ext-spring-boot = { id = "org.springframework.boot", version = "3.4.5" }
-ext-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.25" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version = "1.9.25" }
+spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
+spring-boot = { id = "org.springframework.boot", version = "3.4.5" }
+spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 
 [libraries]
-ext-spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
-ext-spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 
-ext-junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version = "5.12.2" }
-ext-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
-ext-spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.27.3" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.12.2" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
-int-domain-avro = { group = "se.tobiaslafleur.examplecg.lib", name = "domain-avro" }
-int-domain-core = { group = "se.tobiaslafleur.examplecg.lib", name = "domain-core" }
-
-int-core-service = { group = "se.tobiaslafleur.examplecg.service", name = "core" }
+internal-core-service = { module = "se.tobiaslafleur.examplecg.service:core" }
