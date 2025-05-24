@@ -1,4 +1,4 @@
-name: pull request
+name: lint
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 permissions: {}
 
 jobs:
-  test-build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: checkout sources
