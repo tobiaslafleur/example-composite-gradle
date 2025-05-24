@@ -30,8 +30,11 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4
 
-      - name: gradle build
-        run: ./gradlew build
+      - name: test
+        run: ./gradlew test
+
+      - name: build
+        run: ./gradlew assemble
 
       - name: publish junit report
         uses: mikepenz/action-junit-report@cf701569b05ccdd861a76b8607a66d76f6fd4857 # v5
@@ -56,6 +59,8 @@ jobs:
 
       - name: set up docker buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
+        with:
+          platforms: linux/amd64
 
       - name: build and push docker image
         id: push
@@ -65,7 +70,7 @@ jobs:
           file: services/monolith/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.tag }}
-          platforms: linux/amd64
+          provenance: false
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

@@ -1,16 +1,14 @@
-name: pull request
+name: lint
 
 on:
   pull_request:
     branches:
       - 'main'
 
-permissions:
-  checks: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  test-build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: checkout sources
@@ -25,15 +23,5 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4
 
-      - name: test
-        run: ./gradlew test
-
-      - name: build
-        run: ./gradlew assemble
-
-      - name: publish junit report
-        uses: mikepenz/action-junit-report@cf701569b05ccdd861a76b8607a66d76f6fd4857 # v5
-        if: always()
-        with:
-          report_paths: '**/test-junit-xml/**/TEST-*.xml'
-          simplified_summary: true
+      - name: lint
+        run: ./gradlew lint
