@@ -6,6 +6,8 @@ FROM base AS builder
 
 WORKDIR /builder
 
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar otel-agent.jar
+
 ENV JAVA_MINIMAL="/opt/java-minimal"
 ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
 
@@ -38,11 +40,12 @@ WORKDIR /app
 
 ENV JAVA_HOME=/opt/java-minimal
 ENV PATH="$JAVA_HOME/bin:$PATH"
-ENV JAVA_OPTS="-XX:+UseZGC -XX:+ZGenerational -XX:MaxRAMPercentage=75.0 -XX:+UseContainerSupport"
+ENV JAVA_OPTS="-javaagent:/app/otel-agent.jar -XX:+UseZGC -XX:+ZGenerational -XX:MaxRAMPercentage=75.0 -XX:+UseContainerSupport"
 
 COPY --from=builder "$JAVA_HOME" "$JAVA_HOME"
 
 COPY --chown=nonroot:nonroot config config
+COPY --from=builder --chown=nonroot:nonroot /builder/otel-agent.jar otel-agent.jar
 COPY --from=builder --chown=nonroot:nonroot /builder/extracted/dependencies/ ./
 COPY --from=builder --chown=nonroot:nonroot /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder --chown=nonroot:nonroot /builder/extracted/snapshot-dependencies/ ./
