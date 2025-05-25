@@ -13,6 +13,8 @@ ENV JAVA_HOME="/usr/lib/jvm/java-21-openjdk"
 
 COPY services/monolith/build/libs/monolith.jar tmp/app.jar
 
+RUN mkdir /opt/tmp
+
 RUN jar -xf tmp/app.jar
 
 RUN jdeps --ignore-missing-deps -q \
@@ -32,27 +34,36 @@ RUN jlink \
 
 RUN java -Djarmode=tools -jar tmp/app.jar extract --layers --destination extracted
 
-FROM alpine:latest
+RUN ldd /opt/java-minimal/bin/java \
+    | grep '=>' \
+    | awk '{print $3}'
 
-RUN adduser -D -u 1001 nonroot
+RUN readlink -f /lib/ld-musl-x86_64.so.1 >> /tmp/libs.txt || echo "/lib/ld-musl-x86_64.so.1" >> /tmp/libs.txt
+
+RUN sort -u /tmp/libs.txt -o /tmp/libs.txt
+
+RUN xargs -a /tmp/libs.txt -I '{}' sh -c 'mkdir -p /lib-deps$(dirname {}) && cp -v {} /lib-deps{}'
+
+FROM scratch
 
 WORKDIR /app
 
 ENV JAVA_HOME=/opt/java-minimal
-ENV PATH="$JAVA_HOME/bin:$PATH"
-ENV JAVA_OPTS="-javaagent:/app/otel-agent.jar -XX:+UseZGC -XX:+ZGenerational -XX:MaxRAMPercentage=75.0 -XX:+UseContainerSupport"
+ENV PATH="$JAVA_HOME/bin"
 
 COPY --from=builder "$JAVA_HOME" "$JAVA_HOME"
 
-COPY --chown=nonroot:nonroot config config
-COPY --from=builder --chown=nonroot:nonroot /builder/otel-agent.jar otel-agent.jar
-COPY --from=builder --chown=nonroot:nonroot /builder/extracted/dependencies/ ./
-COPY --from=builder --chown=nonroot:nonroot /builder/extracted/spring-boot-loader/ ./
-COPY --from=builder --chown=nonroot:nonroot /builder/extracted/snapshot-dependencies/ ./
-COPY --from=builder --chown=nonroot:nonroot /builder/extracted/application/ ./
+COPY --from=builder /opt/tmp /tmp
+COPY --from=builder /lib-deps /
 
-USER nonroot
+COPY config config
+COPY --from=builder /builder/otel-agent.jar otel-agent.jar
+COPY --from=builder /builder/extracted/dependencies/ ./
+COPY --from=builder /builder/extracted/spring-boot-loader/ ./
+COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
+COPY --from=builder /builder/extracted/application/ ./
 
 EXPOSE 8080
 
-ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["/opt/java-minimal/bin/java"]
+CMD ["-javaagent:/app/otel-agent.jar" ,"-XX:+UseZGC", "-XX:+ZGenerational", "-XX:MaxRAMPercentage=85.0", "-XX:+UseContainerSupport", "-jar", "app.jar"]
