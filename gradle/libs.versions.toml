@@ -1,7 +1,7 @@
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.25" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version = "1.9.25" }
-spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
+spotless = { id = "com.diffplug.spotless", version = "7.0.4" }
 spring-boot = { id = "org.springframework.boot", version = "3.5.0" }
 spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 
