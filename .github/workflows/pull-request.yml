@@ -13,7 +13,7 @@ jobs:
   test-build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout sources
+      - name: checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: setup java
@@ -25,10 +25,10 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@8379f6a1328ee0e06e2bb424dadb7b159856a326 # v4
 
-      - name: test
+      - name: gradle test
         run: ./gradlew test
 
-      - name: build
+      - name: gradle build
         run: ./gradlew assemble
 
       - name: publish junit report

@@ -1,18 +1,25 @@
 version: 2
 updates:
   - package-ecosystem: gradle
-    directory: "/"
+    directory: '/'
     schedule:
       interval: daily
     groups:
       gradle:
         patterns:
-          - "*"
+          - '*'
+    ignore:
+      - dependency-name: 'org.jetbrains.kotlin.jvm'
+        versions:
+          - '2.x'
+      - dependency-name: 'org.jetbrains.kotlin.plugin.spring'
+        versions:
+          - '2.x'
   - package-ecosystem: github-actions
-    directory: "/"
+    directory: '/'
     schedule:
       interval: daily
     groups:
       gradle:
         patterns:
-          - "*"
+          - '*'

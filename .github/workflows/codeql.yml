@@ -25,7 +25,7 @@ jobs:
           - language: actions
             build-mode: none
           - language: java-kotlin
-            build-mode: manual
+            build-mode: none
 
     steps:
       - name: checkout repository
@@ -36,10 +36,6 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-
-      - if: matrix.build-mode == 'manual'
-        shell: bash
-        run: ./gradlew assemble
 
       - name: perform codeql analysis
         uses: github/codeql-action/analyze@ff0a06e83cb2de871e5a09832bc6a81e7276941f # v3
