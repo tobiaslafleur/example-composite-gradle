@@ -1,7 +1,5 @@
 feature:
   - changed-files:
-      - any-glob-to-any-file: '*'
-  - changed-files:
       - not-all-globs-to-all-files: ['gradle/**', '.github/**']
 
 dependencies:
