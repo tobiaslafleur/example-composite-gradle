@@ -4,4 +4,5 @@ This repo serves as a template for a Gradle monorepo using the composite approac
 rather than subprojects.
 
 It also contains a `Dockerfile` in the monolith that uses a layered spring application
-for faster startup and better layer caching in Docker.
+for faster startup and better layer caching in Docker. As well as a minimal Docker image
+extending Scratch.
