@@ -41,7 +41,7 @@ jobs:
           build-mode: ${{ matrix.build-mode }}
 
       - name: gradle assemble
-        if: matrix.build-mode == 'manual'
+        if: matrix.build-mode == "manual"
         shell: bash
         run: ./gradlew assemble
 

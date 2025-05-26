@@ -48,6 +48,10 @@ graalvmNative {
     }
 }
 
+tasks.processTestAot {
+    enabled = false
+}
+
 tasks.test {
     useJUnitPlatform()
 
