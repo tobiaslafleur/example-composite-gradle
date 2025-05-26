@@ -1,0 +1,14 @@
+FROM alpine:latest AS builder
+
+RUN mkdir /opt/tmp
+
+FROM scratch
+
+COPY --from=builder /opt/tmp /tmp
+
+COPY config config
+COPY services/monolith/build/native/nativeCompile/monolith /monolith
+
+EXPOSE 8080
+
+ENTRYPOINT ["/monolith"]

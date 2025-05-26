@@ -8,6 +8,16 @@ updates:
       gradle:
         patterns:
           - "*"
+<<<<<<< Updated upstream
+=======
+    ignore:
+      - dependency-name: "org.jetbrains.kotlin.jvm"
+        versions:
+          - "2.x"
+      - dependency-name: "org.jetbrains.kotlin.plugin.spring"
+        versions:
+          - "2.x"
+>>>>>>> Stashed changes
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

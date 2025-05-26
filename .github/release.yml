@@ -2,10 +2,10 @@ changelog:
   categories:
     - title: 🎉 Features
       labels:
-        - 'feature'
+        - "feature"
     - title: 🛠 Dependencies
       labels:
-        - 'dependencies'
+        - "dependencies"
     - title: 🔄 CI/CD
       labels:
-        - 'ci-cd'
+        - "ci-cd"

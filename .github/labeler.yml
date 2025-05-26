@@ -1,11 +1,11 @@
 feature:
   - changed-files:
-      - any-glob-to-any-file: ['*', '!gradle/**', '!.github/**']
+      - any-glob-to-any-file: "**/*.kt"
 
 dependencies:
   - changed-files:
-      - any-glob-to-any-file: 'gradle/**'
+      - any-glob-to-any-file: "gradle/**"
 
 ci-cd:
   - changed-files:
-      - any-glob-to-any-file: '.github/**'
+      - any-glob-to-any-file: ".github/**"

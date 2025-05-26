@@ -3,7 +3,7 @@ name: main (monolith)
 on:
   push:
     branches:
-      - 'main'
+      - "main"
 
 permissions:
   checks: write
@@ -13,7 +13,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  test-build-push:
+  test:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.tag.outputs.tag }}
@@ -30,67 +30,96 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@8379f6a1328ee0e06e2bb424dadb7b159856a326 # v4
 
-      - name: test
+      - name: gradle test
         run: ./gradlew test
 
-      - name: build
+      - name: gradle assemble
         run: ./gradlew assemble
 
       - name: publish junit report
         uses: mikepenz/action-junit-report@cf701569b05ccdd861a76b8607a66d76f6fd4857 # v5
         if: always()
         with:
-          report_paths: '**/test-junit-xml/**/TEST-*.xml'
+          report_paths: "**/test-junit-xml/**/TEST-*.xml"
           simplified_summary: true
 
-      - name: create tag
+  generate-tag:
+    runs-on: ubuntu-latest
+    needs: [test]
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: generate tag
         id: tag
         run: |
           export TZ="Europe/Stockholm"
           timestamp=$(date +'%y%m%d-%H%M%S')
           echo "tag=$timestamp" >> $GITHUB_OUTPUT
 
-      - name: log in to the container registry
-        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  build-push:
+    runs-on: ubuntu-latest
+    needs: [generate-tag]
+    strategy:
+      matrix:
+        image:
+          - name: monolith
+            dockerfile: services/monolith/Dockerfile
+            gradle-task: "assemble"
+          - name: monolith-native
+            dockerfile: services/monolith/Dockerfile.graal
+            gradle-task: ":monolith:nativeCompile -Pnative --no-configuration-cache"
+            tag-suffix: "-native"
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: set up docker buildx
-        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
+      - name: setup java
+        uses: graalvm/setup-graalvm@01ed653ac833fe80569f1ef9f25585ba2811baab # v1
         with:
-          platforms: linux/amd64
+          java-version: '21'
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: setup gradle
+        uses: gradle/actions/setup-gradle@8379f6a1328ee0e06e2bb424dadb7b159856a326 # v4
+
+      - name: gradle ${{ matrix.image.name }}
+        run: ./gradlew ${{ matrix.image.gradle-task }}
 
       - name: build and push docker image
-        id: push
-        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6
+        uses: ./.github/actions/docker-build-push
         with:
-          context: .
-          file: services/monolith/Dockerfile
-          push: true
-          tags: ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.tag }}
-          provenance: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+         dockerfile: ${{ matrix.image.dockerfile }}
+         github-token: ${{ secrets.GITHUB_TOKEN }}
+         tag: ${{ needs.generate-tag.outputs.tag }}${{ matrix.image.tag-suffix }}
 
-      - name: publish git tag
+  publish-tag:
+    runs-on: ubuntu-latest
+    needs: [generate-tag, build-push]
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: publish tag
         run: |
-          git tag ${{ steps.tag.outputs.tag }}
-          git push origin ${{ steps.tag.outputs.tag }}
+          git tag ${{ needs.generate-tag.outputs.tag }}
+          git push origin ${{ needs.generate-tag.outputs.tag }}
 
   release-to-development:
     runs-on: ubuntu-latest
     environment: development
-    needs: [test-build-push]
+    needs: [generate-tag, publish-tag]
     steps:
       - name: releasing to development
-        run: echo "releasing tag ${{ needs.test-build-push.outputs.tag }} to development"
+        run: echo "releasing tag ${{ needs.generate-tag.outputs.tag }} to development"
 
   release-to-staging:
     runs-on: ubuntu-latest
     environment: staging
-    needs: [test-build-push, release-to-development]
+    needs: [generate-tag, release-to-development]
     steps:
       - name: releasing to staging
-        run: echo "releasing tag ${{ needs.test-build-push.outputs.tag }} to staging"
+        run: echo "releasing tag ${{ needs.generate-tag.outputs.tag }} to staging"

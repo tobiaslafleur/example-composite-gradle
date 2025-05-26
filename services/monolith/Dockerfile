@@ -36,17 +36,12 @@ RUN java -Djarmode=tools -jar tmp/app.jar extract --layers --destination extract
 
 RUN ldd /opt/java-minimal/bin/java \
     | grep '=>' \
-    | awk '{print $3}'
-
-RUN readlink -f /lib/ld-musl-x86_64.so.1 >> /tmp/libs.txt || echo "/lib/ld-musl-x86_64.so.1" >> /tmp/libs.txt
-
-RUN sort -u /tmp/libs.txt -o /tmp/libs.txt
+    | awk '{print $3}' \
+    | sort -u -o /tmp/libs.txt
 
 RUN xargs -a /tmp/libs.txt -I '{}' sh -c 'mkdir -p /lib-deps$(dirname {}) && cp -v {} /lib-deps{}'
 
 FROM scratch
-
-WORKDIR /app
 
 ENV JAVA_HOME=/opt/java-minimal
 ENV PATH="$JAVA_HOME/bin"

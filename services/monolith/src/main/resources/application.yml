@@ -2,3 +2,5 @@
 spring:
   application:
     name: "monolith"
+  config:
+    additional-location: optional:file:./config/

@@ -1,7 +1,13 @@
 name: labeler
 
 on:
+<<<<<<< Updated upstream
   pull_request_target: {}
+=======
+  pull_request:
+    branches:
+      - "main"
+>>>>>>> Stashed changes
 
 permissions:
   contents: read
