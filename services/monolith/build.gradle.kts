@@ -42,7 +42,7 @@ graalvmNative {
             imageName.set("monolith")
             buildArgs.addAll(
                 "--static",
-                "--libc=musl"
+                "--libc=musl",
             )
         }
     }
