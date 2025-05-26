@@ -40,12 +40,8 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
-<<<<<<< Updated upstream
-      - if: matrix.build-mode == 'manual'
-=======
       - name: gradle assemble
         if: matrix.build-mode == 'manual'
->>>>>>> Stashed changes
         shell: bash
         run: ./gradlew assemble
 
