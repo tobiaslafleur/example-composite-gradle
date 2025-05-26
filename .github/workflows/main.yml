@@ -88,7 +88,7 @@ jobs:
 
       - name: install musl
         shell: bash
-        run: apt-get install -y musl
+        run: sudo apt-get install -y musl
 
       - name: gradle ${{ matrix.image.name }}
         run: ./gradlew ${{ matrix.image.gradle-task }}
