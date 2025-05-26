@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.graalvm.buildtools)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.spring.boot)
@@ -33,6 +34,22 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
+}
+
+graalvmNative {
+    binaries {
+        named("main") {
+            imageName.set("monolith")
+            buildArgs.addAll(
+                "--static",
+                "--libc=musl",
+            )
+        }
+    }
+}
+
+tasks.processTestAot {
+    enabled = false
 }
 
 tasks.test {

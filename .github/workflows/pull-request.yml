@@ -3,7 +3,7 @@ name: pull request
 on:
   pull_request:
     branches:
-      - 'main'
+      - "main"
 
 permissions:
   checks: write
@@ -28,7 +28,7 @@ jobs:
       - name: test
         run: ./gradlew test
 
-      - name: build
+      - name: gradle assemble
         run: ./gradlew assemble
 
       - name: publish junit report

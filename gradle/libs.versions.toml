@@ -1,4 +1,5 @@
 [plugins]
+graalvm-buildtools = { id = "org.graalvm.buildtools.native", version = "0.10.6" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.25" }
 kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version = "1.9.25" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.3" }

@@ -54,6 +54,7 @@ spotless {
         jackson()
         leadingTabsToSpaces(2)
 
-        target("config/*.yml", "**/src/**/*.yml")
+        target("**/*.yml")
+        targetExclude(".github/**/*.yml")
     }
 }

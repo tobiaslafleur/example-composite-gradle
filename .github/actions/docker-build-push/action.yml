@@ -1,0 +1,44 @@
+name: 'docker build push'
+description: 'builds and pushes docker image'
+
+inputs:
+  dockerfile:
+    description: "path to the dockerfile used for building"
+    required: true
+  github-token:
+    description: "github api token"
+    required: true
+  image-name:
+    description: "name of the docker image"
+    required: true
+    default: ${{ github.repository }}
+  tag:
+    description: "tag to use on the image"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: log in to the container registry
+      uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ inputs.github-token }}
+
+    - name: set up docker buildx
+      uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3
+      with:
+        platforms: linux/amd64
+
+    - name: build and push docker image
+      id: push
+      uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6
+      with:
+        context: .
+        file: ${{ inputs.dockerfile }}
+        push: true
+        tags: ghcr.io/${{ inputs.image-name }}:${{ inputs.tag }}
+        provenance: false
+        cache-from: type=gha
+        cache-to: type=gha,mode=max

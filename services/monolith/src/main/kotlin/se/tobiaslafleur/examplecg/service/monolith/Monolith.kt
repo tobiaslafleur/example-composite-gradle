@@ -7,7 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class Monolith
 
 fun main(args: Array<String>) {
-    val app = SpringApplication(Monolith::class.java)
-    app.setDefaultProperties(mapOf("spring.config.additional-location" to "file:./config/"))
-    app.run(*args)
+    SpringApplication(Monolith::class.java).run(*args)
 }
