@@ -86,6 +86,10 @@ jobs:
       - name: setup gradle
         uses: gradle/actions/setup-gradle@8379f6a1328ee0e06e2bb424dadb7b159856a326 # v4
 
+      - name: install musl
+        shell: bash
+        run: apt-get install -y musl
+
       - name: gradle ${{ matrix.image.name }}
         run: ./gradlew ${{ matrix.image.gradle-task }}
 
