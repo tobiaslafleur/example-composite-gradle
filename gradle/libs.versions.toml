@@ -1,9 +1,9 @@
 [plugins]
-graalvm-buildtools = { id = "org.graalvm.buildtools.native", version = "0.10.6" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "1.9.25" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version = "1.9.25" }
-spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
-spring-boot = { id = "org.springframework.boot", version = "3.5.0" }
+graalvm-buildtools = { id = "org.graalvm.buildtools.native", version = "0.11.0" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.2.0" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version = "2.2.0" }
+spotless = { id = "com.diffplug.spotless", version = "7.2.1" }
+spring-boot = { id = "org.springframework.boot", version = "3.5.4" }
 spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 
 [libraries]
@@ -11,8 +11,8 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 
-assertj-core = { module = "org.assertj:assertj-core", version = "3.27.3" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.12.2" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.27.4" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version = "5.13.4" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
 internal-core-service = { module = "se.tobiaslafleur.examplecg.service:core" }
